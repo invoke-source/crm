@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--设置mybatis输出日志-->
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+    <!--设置别名-->
+    <typeAliases>
+        <!--实体类所在的包名-->
+        <package name="com.szx.crm.settings.domain"/>
+        <package name="com.szx.crm.workbench.domain"/>
+    </typeAliases>
+
+    <!--mapper映射文件的位置-->
+    <mappers>
+        <!--一次性加载包中的所有mapper.xml文件(要求1.mapper文件的文件名必须和其对应接口的名称一致 2.mapper文件和其对应的接口必须在同一目录中)-->
+        <package name="com.szx.crm.settings.dao"/>
+        <package name="com.szx.crm.workbench.dao"/>
+    </mappers>
+</configuration>

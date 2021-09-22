@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+       <context:property-placeholder location="classpath:conf/jdbc.properties"/>
+        <bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+            <property name="url" value="${jdbc.url}"/>
+            <property name="username" value="${jdbc.username}"/>
+            <property name="password" value="${jdbc.password}"/>
+            <property name="maxActive" value="${jdbc.maxActive}"/>
+        </bean>
+    <!--创建sqlSessionFactory-->
+    <bean name="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="configLocation" value="classpath:conf/mybatis.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!--声明mybatis扫描器，创建dao接口实例-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <property name="basePackage" value="com.szx.crm.settings.dao,com.szx.crm.workbench.dao"/>
+    </bean>
+    <!--创建service类-->
+    <context:component-scan base-package="com.szx.crm.settings.service,com.szx.crm.workbench.service"/>
+   <!--使用spring来处理事务-->
+    <!--
+    声明事务管理器
+    <bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    开启注解驱动
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    -->
+
+    <!--使用aspectj来处理事务-->
+    <!--声明事务管理器-->
+    <bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!--声明事务通知，给方法需要事务-->
+    <tx:advice id="serviceMethod" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="login" isolation="DEFAULT" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="delete" isolation="DEFAULT" propagation="REQUIRED"
+                       rollback-for="com.szx.crm.workbench.exception.ActivityDeleteException"></tx:method>
+            <tx:method name="deleteRemark" isolation="DEFAULT" propagation="REQUIRED"
+                       rollback-for="com.szx.crm.workbench.exception.ActivityRemarkDeleteException"></tx:method>
+            <tx:method name="Relation" isolation="DEFAULT" propagation="REQUIRED"
+                       rollback-for="com.szx.crm.workbench.exception.ActivityClueRelationException"></tx:method>
+        </tx:attributes>
+    </tx:advice>
+    <!--配置aop，那些包中的那些类需要事务-->
+    <aop:config>
+        <!--配置切入点表达式，声明那些类需要事务-->
+        <!--所有包下的service包及子包下的所有类的所有方法-->
+        <aop:pointcut id="service" expression="execution(* *..service..*.*(..))"/>
+        <!--关联service和serviceMethod表示service中的serviceMethod方法需要事务-->
+        <aop:advisor advice-ref="serviceMethod" pointcut-ref="service"/>
+    </aop:config>
+
+</beans>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.szx.crm.workbench.dao.ClueActivityRelationDao">
+    <select id="getActivityListByClueId" resultType="com.szx.crm.workbench.domain.Activity">
+
+        select
+            a.id,
+            u.name as owner,
+            a.name,
+            a.startDate,
+            a.endDate,
+            a.cost,
+            a.description,
+            a.createTime,
+            a.createBy,
+            a.editTime,
+            a.editBy
+        from tbl_activity a
+        join (select activityid
+               from tbl_clue_activity_relation
+        where clueId=#{clueId}) ac
+        on a.id=ac.activityId
+        join tbl_user u
+        on a.owner=u.id
+    </select>
+
+    <delete id="deleteRelation">
+        delete
+        from tbl_clue_activity_relation
+        where clueId=#{clueId} and activityId=#{activityId}
+    </delete>
+
+    <insert id="Relation">
+        insert into tbl_clue_activity_relation(id,clueId,activityId)
+        values(#{id},#{clueId},#{activityId})
+    </insert>
+	
+	
+  	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
