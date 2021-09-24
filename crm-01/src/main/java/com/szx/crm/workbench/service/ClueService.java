@@ -1,10 +1,8 @@
 package com.szx.crm.workbench.service;
 
-import com.szx.crm.workbench.domain.Activity;
-import com.szx.crm.workbench.domain.Clue;
-import com.szx.crm.workbench.domain.ClueActivityRelation;
-import com.szx.crm.workbench.domain.ClueRemark;
+import com.szx.crm.workbench.domain.*;
 import com.szx.crm.workbench.exception.ActivityClueRelationException;
+import com.szx.crm.workbench.exception.ClueConvertException;
 import com.szx.crm.workbench.vo.Pagination;
 
 import java.util.List;
@@ -16,7 +14,6 @@ import java.util.Map;
  */
 public interface ClueService {
      Pagination<Clue> PageList(Map<String, Object> map);
-
 
     Boolean save(Clue clue);
 
@@ -39,4 +36,6 @@ public interface ClueService {
     List<Activity> getActivityRelationListNotByClueId( Map<String,Object> map);
 
     Boolean Relation(List<ClueActivityRelation> list) throws ActivityClueRelationException;
+
+    void convert(String id, Tran tran) throws ClueConvertException;
 }

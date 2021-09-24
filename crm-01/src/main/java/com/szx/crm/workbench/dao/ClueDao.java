@@ -16,4 +16,8 @@ public interface ClueDao {
     List<Activity> selectByActivitys(Map<String, Object> map);
 
     Clue getClueById(String id);
+
+    Clue getById(String id);
+
+    Boolean delete(String id);
 }

@@ -3,16 +3,15 @@ package com.szx.crm.workbench.web.controller;
 import com.szx.crm.settings.domain.User;
 import com.szx.crm.utils.DateTimeUtil;
 import com.szx.crm.utils.UUIDUtil;
-import com.szx.crm.workbench.domain.Activity;
-import com.szx.crm.workbench.domain.Clue;
-import com.szx.crm.workbench.domain.ClueActivityRelation;
-import com.szx.crm.workbench.domain.ClueRemark;
+import com.szx.crm.workbench.domain.*;
 import com.szx.crm.workbench.exception.ActivityClueRelationException;
+import com.szx.crm.workbench.exception.ClueConvertException;
 import com.szx.crm.workbench.service.ActivityService;
 import com.szx.crm.workbench.service.ClueService;
 import com.szx.crm.workbench.vo.Pagination;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -168,6 +167,34 @@ public class ClueController {
         Map<String,Object> map = new HashMap<>(1);
         map.put("success",success);
         return map;
+    }
+
+    @RequestMapping(value = "workbench/clue/getActivityList.do")
+    @ResponseBody
+    public List<Activity> getActivityList(){
+        List<Activity> list = activityService.getActivityList();
+        return list;
+    }
+
+
+    @RequestMapping(value = "workbench/clue/getActivityListByName.do")
+    @ResponseBody
+    public List<Activity> getActivityListByName(String name){
+        List<Activity> list = activityService.getActivityListByName(name);
+        return list;
+    }
+
+    //线索转换
+    @RequestMapping(value = "workbench/clue/convert.do")
+    public String convert(Tran tran,@RequestParam(value = "clueId") String id, HttpServletRequest request) throws ClueConvertException {
+        tran.setId(UUIDUtil.getUUID());
+        User user = (User) request.getSession().getAttribute("user");
+        tran.setCreateBy(user.getName());
+        tran.setCreateTime(DateTimeUtil.getSysTime());
+        clueService.convert(id,tran);
+
+        return "/workbench/clue/index.jsp";
+
     }
 
 

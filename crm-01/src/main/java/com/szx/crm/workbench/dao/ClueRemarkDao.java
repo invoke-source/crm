@@ -15,4 +15,6 @@ public interface ClueRemarkDao {
     Boolean updateRemark(ClueRemark clueRemark);
 
     Boolean deleteRemark(String id);
+
+    List<ClueRemark> getListByClueId(String id);
 }

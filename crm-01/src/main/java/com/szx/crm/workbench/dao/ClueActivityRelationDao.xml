@@ -37,6 +37,10 @@
         insert into tbl_clue_activity_relation(id,clueId,activityId)
         values(#{id},#{clueId},#{activityId})
     </insert>
+
+    <select id="getRelationByClueId" resultType="com.szx.crm.workbench.domain.ClueActivityRelation">
+        select * from tbl_clue_activity_relation where clueId=#{id}
+    </select>
 	
 	
   	

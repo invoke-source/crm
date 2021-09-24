@@ -53,13 +53,12 @@ public class ContactsRemark {
 	public void setEditFlag(String editFlag) {
 		this.editFlag = editFlag;
 	}
+
 	public String getContactsId() {
 		return contactsId;
 	}
+
 	public void setContactsId(String contactsId) {
 		this.contactsId = contactsId;
 	}
-	
-	
-	
 }

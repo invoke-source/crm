@@ -34,7 +34,7 @@ request.getContextPath() + "/";
 			todayBtn: true,
 			pickerPosition: "bottom-left"
 		});
-		//添加窗口赋值
+		//添加记录窗口赋值
 		$("#addBtn").click(function (){
 			$.ajax({
 				url:"workbench/clue/getuserList.do",
