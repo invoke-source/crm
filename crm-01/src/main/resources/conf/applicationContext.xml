@@ -51,6 +51,10 @@
                        rollback-for="com.szx.crm.workbench.exception.ActivityRemarkDeleteException"></tx:method>
             <tx:method name="Relation" isolation="DEFAULT" propagation="REQUIRED"
                        rollback-for="com.szx.crm.workbench.exception.ActivityClueRelationException"></tx:method>
+            <tx:method name="convert" isolation="DEFAULT" propagation="REQUIRED"
+                       rollback-for="com.szx.crm.workbench.exception.ClueConvertException"></tx:method>
+            <tx:method name="deleteCustomerByid" isolation="DEFAULT" propagation="REQUIRED"
+                       rollback-for="com.szx.crm.workbench.exception.deleteCustomerException"></tx:method>
         </tx:attributes>
     </tx:advice>
     <!--配置aop，那些包中的那些类需要事务-->

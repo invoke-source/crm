@@ -76,4 +76,14 @@ public class CrmExceptionHandler {
         return map;
     }
 
+    /*当对客户信息进行save操作时的异常处理*/
+    @ResponseBody
+    @ExceptionHandler(value = deleteCustomerException.class)
+    public Map<String,Object> deleteCustomerError(Exception e, HttpServletRequest request, HttpServletResponse response){
+        Map<String,Object> map = new HashMap<>(2);
+        map.put("success",false);
+        map.put("msg",e.getMessage());
+        return map;
+    }
+
 }

@@ -8,6 +8,9 @@ import java.util.List;
 public interface ClueActivityRelationDao {
 
 
+    List<ClueActivityRelation> getRelationByClueId(String id);
+
+
     List<Activity> getActivityListByClueId(String clueId);
 
     Boolean deleteRelation(ClueActivityRelation clueActivityRelation);
