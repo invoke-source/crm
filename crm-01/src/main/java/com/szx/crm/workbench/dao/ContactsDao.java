@@ -12,4 +12,6 @@ public interface ContactsDao {
     Integer selectBytotal(Map<String, Object> map);
 
     List<Contacts> selectByContacts(Map<String, Object> map);
+
+    Contacts getContactsById(String id);
 }

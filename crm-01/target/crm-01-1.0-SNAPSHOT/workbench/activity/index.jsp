@@ -136,10 +136,10 @@
 					url: "workbench/activity/update.do",
 					data:{
 						"id":$.trim($("#edit-id").val()),
-						"owner":$.trim($("#edit-name").val()),
+						"owner":$.trim($("#edit-owner").val()),
 						"name":$.trim($("#edit-name").val()),
 						"startDate":$.trim($("#edit-startDate").val()),
-						"endDate":$.trim($("#edit--endDate").val()),
+						"endDate":$.trim($("#edit-endDate").val()),
 						"cost":$.trim($("#edit-cost").val()),
 						"description":$.trim($("#edit-description").val())
 					},
