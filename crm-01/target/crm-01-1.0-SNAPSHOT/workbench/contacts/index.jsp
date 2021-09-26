@@ -238,7 +238,7 @@ request.getContextPath() + "/";
 				$.each(data.dataList,function (index,element){
 					html += '<tr>'
 					html += '<td><input type="checkbox" name="xz" value="'+element.id+'" /></td>'
-					html += '<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href=\'workbench/contacts/detail.jsp\';">'+element.fullname+'</a></td>'
+					html += '<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href=\'workbench/contacts/detail.do?id='+element.id+'\';">'+element.fullname+'</a></td>'
 					html += '<td>'+element.customerId+'</td>'
 					html += '<td>'+element.owner+'</td>'
 					html += '<td>'+element.source+'</td>'
@@ -607,7 +607,7 @@ request.getContextPath() + "/";
 				    </div>
 				  </div>
 				  
-				  <button type="submit" class="btn btn-default" id="searchBtn">查询</button>
+				  <button type="button" class="btn btn-default" id="searchBtn">查询</button>
 				  
 				</form>
 			</div>

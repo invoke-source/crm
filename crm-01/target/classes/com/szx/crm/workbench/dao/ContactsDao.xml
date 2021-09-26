@@ -15,6 +15,7 @@
         email,
         mphone,
         job,
+        birth,
         createBy,
         createTime,
         editBy,
@@ -34,6 +35,7 @@
           #{email},
           #{mphone},
           #{job},
+          #{birth},
           #{createBy},
           #{createTime},
           #{editBy},
@@ -114,6 +116,35 @@
         </where>
         order  by createTime desc
         limit #{skipCount},#{pageSize}
+    </select>
+
+    <select id="getContactsById" resultType="com.szx.crm.workbench.domain.Contacts">
+
+        select
+            c.id,
+            u.name as owner,
+            c.source,
+            cu.name as customerId,
+            c.fullname,
+            c.appellation,
+            c.email,
+            c.mphone,
+            c.job,
+            c.birth,
+            c.createBy,
+            c.createTime,
+            c.editBy,
+            c.editTime,
+            c.description,
+            c.contactSummary,
+            c.nextContactTime,
+            c.address
+        from tbl_contacts c
+        join tbl_user u
+        on c.owner = u.id
+        join tbl_customer cu
+        on c.customerId=cu.id
+        where c.id=#{id}
     </select>
 	
   	
