@@ -29,6 +29,8 @@ public interface CustomerService {
 
     Customer detail(String id);
 
+    List<String> getCustomerName(String name);
+
 /*    Boolean save(Clue clue);
 
     Clue getClueById(String id);

@@ -78,6 +78,15 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerDao.getCustomerById(id);
         return customer;
     }
+
+    //获取客户名称列表
+    @Override
+    public List<String> getCustomerName(String name) {
+        List<String> customerNameList = customerDao.getCustomerName(name);
+        return customerNameList;
+    }
+
+
     /*
     @Override
     public Clue getClueById(String id) {

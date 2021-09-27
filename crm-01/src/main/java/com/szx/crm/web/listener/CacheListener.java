@@ -8,9 +8,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Administrator
@@ -30,6 +28,18 @@ public class CacheListener implements ServletContextListener {
             servletContext.setAttribute(s,dicMap.get(s));
         }
         System.out.println("服务器处理数据字典结束");
+
+        //处理阶段与可能性的对应关系解析Stage2Possibility.properties配置文件并存入到上下文对象中
+        Map<String,String> pmap = new HashMap<>();
+        ResourceBundle rb = ResourceBundle.getBundle("conf/Stage2Possibility");
+        Enumeration<String> e = rb.getKeys();
+        while (e.hasMoreElements()){
+            String key = e.nextElement();
+            String value = rb.getString(key);
+            pmap.put(key,value);
+        }
+        servletContext.setAttribute("pmap",pmap);
+
     }
 
     @Override

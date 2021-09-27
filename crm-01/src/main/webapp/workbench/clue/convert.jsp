@@ -223,7 +223,7 @@ request.getContextPath() + "/";
 		  <div class="form-group" style="width: 400px;position: relative; left: 20px;">
 		    <label for="activity">市场活动源&nbsp;&nbsp;<a href="javascript:void(0);" id="OpenSearchModalBtn" style="text-decoration: none;"><span class="glyphicon glyphicon-search"></span></a></label>
 		    <input type="text" class="form-control" id="ActivityName" placeholder="点击上面搜索" readonly>
-			<input type="hidden" id="activityId" name="activityId"/>
+			<input type="hidden" id="activityId" />
 		  </div>
 		</form>
 		

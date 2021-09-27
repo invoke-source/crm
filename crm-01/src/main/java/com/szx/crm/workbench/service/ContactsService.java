@@ -15,7 +15,13 @@ import java.util.Map;
  * @2021/9/16 @14:34
  */
 public interface ContactsService {
-     Pagination<Contacts> PageList(Map<String, Object> map);
+ List<Contacts> getContactsListByName(String name);
+
+
+    List<Contacts> getContactsList() ;
+
+
+    Pagination<Contacts> PageList(Map<String, Object> map);
 
      List<User> getUserList();
 

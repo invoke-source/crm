@@ -14,4 +14,8 @@ public interface ContactsDao {
     List<Contacts> selectByContacts(Map<String, Object> map);
 
     Contacts getContactsById(String id);
+
+    List<Contacts> getContactsListByName(String name);
+
+    List<Contacts> getContactsList();
 }

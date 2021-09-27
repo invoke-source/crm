@@ -32,6 +32,19 @@ public class ContactsServiceImpl implements ContactsService {
     private CustomerDao customerDao;
     @Resource
     private UserDao userDao;
+
+    @Override
+    public List<Contacts> getContactsListByName(String name) {
+        List<Contacts> list = contactsDao.getContactsListByName(name);
+        return list;
+    }
+
+    @Override
+    public List<Contacts> getContactsList() {
+        List<Contacts> list = contactsDao.getContactsList();
+        return list;
+    }
+
     @Override
     public Pagination<Contacts> PageList(Map<String, Object> map) {
         Pagination pagination = new Pagination<Activity>();

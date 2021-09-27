@@ -25,4 +25,6 @@ public interface CustomerDao {
     Integer deleteCustomerByid(String id);
 
     Customer getCustomerById(String id);
+
+    List<String> getCustomerName(String name);
 }

@@ -146,8 +146,36 @@
         on c.customerId=cu.id
         where c.id=#{id}
     </select>
-	
-  	
+
+  	<select id="getContactsList" resultType="com.szx.crm.workbench.domain.Contacts">
+        select * from tbl_contacts
+    </select>
+
+    <select id="getContactsListByName" resultType="com.szx.crm.workbench.domain.Contacts">
+        select
+            c.id,
+            u.name as owner,
+            c.source,
+            c.customerId,
+            c.fullname,
+            c.appellation,
+            c.email,
+            c.mphone,
+            c.job,
+            c.birth,
+            c.createBy,
+            c.createTime,
+            c.editBy,
+            c.editTime,
+            c.description,
+            c.contactSummary,
+            c.nextContactTime,
+            c.address
+        from tbl_contacts c
+        join tbl_user u
+        on c.owner = u.id
+        where c.fullname like '%' #{name} '%'
+    </select>
 </mapper>
 
 
