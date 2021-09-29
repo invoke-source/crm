@@ -9,6 +9,7 @@ import com.szx.crm.workbench.domain.Activity;
 import com.szx.crm.workbench.domain.Customer;
 import com.szx.crm.workbench.domain.Tran;
 import com.szx.crm.workbench.domain.TranHistory;
+import com.szx.crm.workbench.exception.ChangeStageExceeption;
 import com.szx.crm.workbench.exception.TranSaveException;
 import com.szx.crm.workbench.service.TranService;
 import com.szx.crm.workbench.vo.Pagination;
@@ -93,6 +94,31 @@ public class TranServiceImpl implements TranService {
         return tran;
     }
 
+    @Override
+    public List<TranHistory> showHistoryList(String tranId,Map<String,String> map) {
+        List<TranHistory> list = tranHistoryDao.getHistoryListByTranId(tranId);
+        for (TranHistory tranHistory : list) {
+            String possibility =  map.get(tranHistory.getStage());
+            tranHistory.setPossibility(possibility);
+        }
+        return list;
+    }
+
+    @Override
+    public Boolean changeStage(String tranid, TranHistory tranHistory) throws ChangeStageExceeption {
+        String stage = tranHistory.getStage();
+        Tran tran = new Tran();
+        tran.setId(tranid);
+        tran.setStage(stage);
+        tran.setEditBy(tranHistory.getCreateBy());
+        tran.setEditTime(DateTimeUtil.getSysTime());
+        boolean flag = tranDao.changeStage(tran);
+        boolean flag1 = tranHistoryDao.save(tranHistory);
+        if (flag != flag1){
+            throw  new ChangeStageExceeption("x修改阶段信息失败");
+        }
+        return true;
+    }
 
 
 }

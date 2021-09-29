@@ -57,6 +57,9 @@
                        rollback-for="com.szx.crm.workbench.exception.deleteCustomerException"></tx:method>
             <tx:method name="savaTran" isolation="DEFAULT" propagation="REQUIRED"
                        rollback-for="com.szx.crm.workbench.exception.TranSaveException"></tx:method>
+            <tx:method name="changeStage" isolation="DEFAULT" propagation="REQUIRED"
+                       rollback-for="com.szx.crm.workbench.exception.ChangeStageExceeption"></tx:method>
+
         </tx:attributes>
     </tx:advice>
     <!--配置aop，那些包中的那些类需要事务-->

@@ -15,4 +15,12 @@ public interface TranDao {
     List<Activity> selectByActivitys(Map<String, Object> map);
 
     Tran getTranById(String id);
+
+    Boolean changeStage(Tran tran);
+
+    List<String> getStageList();
+
+    List<Map<String, Object>> dataLists();
+
+    Integer getStageTotal();
 }

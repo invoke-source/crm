@@ -2,6 +2,8 @@ package com.szx.crm.workbench.service;
 
 import com.szx.crm.workbench.domain.Activity;
 import com.szx.crm.workbench.domain.Tran;
+import com.szx.crm.workbench.domain.TranHistory;
+import com.szx.crm.workbench.exception.ChangeStageExceeption;
 import com.szx.crm.workbench.exception.TranSaveException;
 import com.szx.crm.workbench.vo.Pagination;
 
@@ -19,4 +21,8 @@ public interface TranService {
     Pagination PageList(Map<String,Object> map);
 
     Tran getTranById(String id);
+
+    List<TranHistory> showHistoryList(String tranId, Map<String,String> map);
+
+    Boolean changeStage(String tranid, TranHistory tranHistory) throws ChangeStageExceeption;
 }

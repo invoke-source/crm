@@ -23,9 +23,10 @@
       #{createBy},
       #{tranId}
           )
-
-
     </insert>
+    <select id="getHistoryListByTranId" resultType="com.szx.crm.workbench.domain.TranHistory">
+        select * from tbl_tran_history where tranId=#{tranId} order by createTime desc
+    </select>
   	
 </mapper>
 

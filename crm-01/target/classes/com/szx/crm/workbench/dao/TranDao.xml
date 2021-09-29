@@ -42,6 +42,145 @@
           #{nextContactTime}
         )
     </insert>
+
+    <select id="selectBcytotal" resultType="int">
+        select count(*)
+        from tbl_tran t
+        join tbl_contacts cs
+        on t.contactsId=cs.id
+        join tbl_customer cr
+        on t.customerId=cr.id
+        <where>
+            <if test="contactsName!=null and contactsName!=''">
+                cs.fullname like '%' #{contactsName} '%'
+            </if>
+            <if test="customerName!=null and customerName!=''">
+                and cr.name like '%' #{contactsName} '%'
+            </if>
+            <if test="owner!=null and owner!=''">
+                and t.owner like '%' #{owner} '%'
+            </if>
+            <if test="name!=null and name!=''">
+                and  t.name like '%' #{name} '%'
+            </if>
+            <if test="stage!=null and stage!=''">
+                and  t.stage like '%' #{stage} '%'
+            </if>
+            <if test="type!=null and type!=''">
+                and t.type like '%' #{type} '%'
+            </if>
+            <if test="source!=null and source!=''">
+                and  t.source like '%' #{source} '%'
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByActivitys" resultType="com.szx.crm.workbench.domain.Tran">
+        select
+        t.id,
+        u.name as owner,
+        t.money,
+        t.name,
+        t.expectedDate,
+        cr.name as customerId,
+        t.stage,
+        t.type,
+        t.source,
+        t.activityId,
+        cs.fullname as contactsId,
+        t.createBy,
+        t.createTime,
+        t.editBy,
+        t.editTime,
+        t.description,
+        t.contactSummary,
+        t.nextContactTime
+
+        from tbl_tran t
+        join tbl_contacts cs
+        on t.contactsId=cs.id
+        join tbl_customer cr
+        on t.customerId=cr.id
+        join tbl_user u
+        on t.owner=u.id
+        <where>
+            <if test="contactsName!=null and contactsName!=''">
+                cs.fullname like '%' #{contactsName} '%'
+            </if>
+            <if test="customerName!=null and customerName!=''">
+                and cr.name like '%' #{contactsName} '%'
+            </if>
+            <if test="owner!=null and owner!=''">
+                and u.name like '%' #{owner} '%'
+            </if>
+            <if test="name!=null and name!=''">
+                and  t.name like '%' #{name} '%'
+            </if>
+            <if test="stage!=null and stage!=''">
+                and  t.stage like '%' #{stage} '%'
+            </if>
+            <if test="type!=null and type!=''">
+                and t.type like '%' #{type} '%'
+            </if>
+            <if test="source!=null and source!=''">
+                and  t.source like '%' #{source} '%'
+            </if>
+        </where>
+    </select>
+
+    <select id="getTranById" resultType="com.szx.crm.workbench.domain.Tran">
+        select
+            t.id,
+            u.name as owner,
+            t.money,
+            t.name,
+            t.expectedDate,
+            cr.name as customerId,
+            t.stage,
+            t.type,
+            t.source,
+            a.name as activityId,
+            cs.fullname as contactsId,
+            t.createBy,
+            t.createTime,
+            t.editBy,
+            t.editTime,
+            t.description,
+            t.contactSummary,
+            t.nextContactTime
+        from tbl_tran t
+        join tbl_customer cr
+        on t.customerId=cr.id
+        join tbl_user u
+        on t.owner=u.id
+        left join tbl_contacts cs
+        on t.contactsId=cs.id
+        left join tbl_activity a
+        on t.activityId=a.id
+        where t.id=#{id}
+    </select>
+
+    <update id="changeStage">
+        update tbl_tran
+        set stage=#{stage},
+            editBy=#{editBy},
+            editTime=#{editTime}
+        where id=#{id}
+    </update>
+
+    <select id="getStageTotal" resultType="int">
+        select count(stage)from tbl_tran
+    </select>
+    <select id="getStageList" resultType="String">
+        select stage from tbl_tran
+    </select>
+    <select id="dataLists" resultType="map">
+        select count(*) as value ,stage as name
+        from tbl_tran
+        group by stage
+    </select>
+
+
 	
   	
 </mapper>

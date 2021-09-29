@@ -7,6 +7,8 @@ import com.szx.crm.utils.UUIDUtil;
 import com.szx.crm.workbench.domain.Activity;
 import com.szx.crm.workbench.domain.Contacts;
 import com.szx.crm.workbench.domain.Tran;
+import com.szx.crm.workbench.domain.TranHistory;
+import com.szx.crm.workbench.exception.ChangeStageExceeption;
 import com.szx.crm.workbench.exception.TranSaveException;
 import com.szx.crm.workbench.service.ActivityService;
 import com.szx.crm.workbench.service.ContactsService;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
@@ -123,11 +126,47 @@ public class TranController {
 
     @RequestMapping(value = "workbench/transaction/detail.do")
     @ResponseBody
-    public ModelAndView detail(String id){
+    public ModelAndView detail(String id,HttpServletRequest request){
         Tran tran = tranService.getTranById(id);
         ModelAndView mv = new ModelAndView();
+        ServletContext servletContext = request.getServletContext();
+        Map<String,String> map = (Map<String, String>) servletContext.getAttribute("pmap");
+        String possibility = map.get(tran.getStage());
+        tran.setPossibility(possibility);
         mv.addObject("tran",tran);
         mv.setViewName("/workbench/transaction/detail.jsp");
         return mv;
+    }
+
+    @RequestMapping(value = "workbench/transaction/showHistoryList.do")
+    @ResponseBody
+    public List<TranHistory> showHistoryList(String tranId, HttpServletRequest request){
+        ServletContext servletContext = request.getServletContext();
+        Map<String,String> map = (Map<String, String>) servletContext.getAttribute("pmap");
+        List<TranHistory> list = tranService.showHistoryList(tranId,map);
+        return list;
+
+    }
+
+    //修改交易表的阶段信息
+    @RequestMapping(value = "workbench/transaction/changeStage.do")
+    @ResponseBody
+    public Map<String,Object> changeStage(TranHistory tranHistory,String Tranid,HttpServletRequest request) throws ChangeStageExceeption {
+        User user = (User) request.getSession().getAttribute("user");
+        tranHistory.setCreateBy(user.getName());
+        tranHistory.setCreateTime(DateTimeUtil.getSysTime());
+        tranHistory.setTranId(Tranid);
+        tranHistory.setId(UUIDUtil.getUUID());
+        //修改交易表的阶段信息
+        ServletContext servletContext = request.getServletContext();
+        Map<String,String> pMap = (Map<String, String>) servletContext.getAttribute("pmap");
+        Boolean flag = tranService.changeStage(Tranid,tranHistory);
+        Tran tran = tranService.getTranById(Tranid);
+        String possibility = pMap.get(tran.getStage());
+        tran.setPossibility(possibility);
+        Map<String,Object> map = new HashMap<>(2);
+        map.put("success",flag);
+        map.put("tran",tran);
+        return map;
     }
 }
